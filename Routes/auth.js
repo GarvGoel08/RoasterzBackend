@@ -31,7 +31,7 @@ async function deleteUsersWithExpiredOTP() {
   }
 }
 
-setInterval(deleteUsersWithExpiredOTP, 60 * 1000);
+setInterval(deleteUsersWithExpiredOTP, 5 * 60 * 1000);
 
 router.post(
   "/SignUp",
