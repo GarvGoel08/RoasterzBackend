@@ -8,7 +8,7 @@ connectToDatabase();
 app.use(express.json());
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://item-zilla-frontend.vercel.app', 'http://item-zilla-frontend.vercel.app'],
+    origin: ['http://localhost:3000', 'https://roasterz.vercel.app', 'http://item-zilla-frontend.vercel.app'],
     credentials: true,
   })
 );
