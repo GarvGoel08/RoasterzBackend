@@ -152,4 +152,21 @@ async function createRazorpayOrder(orderAmount) {
 //   }
 // })
 
+// Get All Orders for Admin
+router.get("/get-all-orders", FetchUser, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(400).json({ error: "User not found" });
+    }
+    if (!user.seller)
+      return res.status(400).json({ error: "You are not authorized to view orders" });
+    const orders = await Order.find();
+    return res.json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
 module.exports = router;
