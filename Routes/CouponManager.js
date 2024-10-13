@@ -8,7 +8,7 @@ const FetchUser = require('../middleware/FetchUser');
 router.post('/AddCoupon', FetchUser, async (req, res) => {
     try {
         const { couponCode, couponDiscount } = req.body;
-        const user = await User.findById(req.userId);
+        const user = await User.findById(req.user.id);
         if (!user) {
             return res.status(400).json({ error: "User not found" });
         }
@@ -28,7 +28,7 @@ router.post('/AddCoupon', FetchUser, async (req, res) => {
 
 router.get('/GetCoupons', FetchUser, async (req, res) => {
     try {
-        const user = await User.findById(req.userId);
+        const user = await User.findById(req.user.id);
         if (!user) {
             return res.status(400).json({ error: "User not found" });
         }
@@ -57,7 +57,7 @@ router.get('/GetCoupon/:couponCode', async (req, res) => {
 
 router.delete('/DeleteCoupon/:couponCode', FetchUser, async (req, res) => {
     try {
-        const user = await User.findById(req.userId);
+        const user = await User.findById(req.user.id);
         if (!user) {
             return res.status(400).json({ error: "User not found" });
         }
