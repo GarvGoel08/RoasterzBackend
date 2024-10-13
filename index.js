@@ -8,7 +8,7 @@ connectToDatabase();
 app.use(express.json());
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://roasterz.vercel.app', 'https://roasterz-admin.vercel.app/'],
+    origin: ['http://localhost:3000', 'https://roasterz.vercel.app', 'https://roasterz-admin.vercel.app'],
     credentials: true,
   })
 );
