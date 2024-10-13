@@ -8,6 +8,7 @@ require("dotenv").config();
 const Item = require('../Schemas/Item');
 const Order = require("../Schemas/Order.js");
 const FetchUser = require("../middleware/FetchUser.js");
+const Coupons = require("../Schemas/Coupons.js");
 // const razorpay = new Razorpay({
 //   key_id: process.env.RP_KEY,
 //   key_secret: process.env.RP_SECRET,
@@ -23,7 +24,7 @@ router.get('/get-orders', FetchUser, async(req,res) => {
 
 router.post("/create-order", FetchUser, async (req, res) => {
   try {
-    const { items, addressId, paymentMethod } = req.body;
+    const { items, addressId, paymentMethod, couponCode } = req.body;
     const userId = req.user.id;
     let orderDate;
     let orderAmount = 0;
@@ -32,6 +33,14 @@ router.post("/create-order", FetchUser, async (req, res) => {
       orderAmount +=
         item.quantity * 100 * (item.price - (item.price * item.discount) / 100);
     });
+
+    if (couponCode) {
+      const coupon = await Coupons.findOne({ couponCode });
+      if (coupon) {
+        orderAmount = orderAmount - (orderAmount * coupon.couponDiscount) / 100;
+      }
+    }
+
 
     if (paymentMethod === "razorpay") {
 

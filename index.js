@@ -18,6 +18,7 @@ app.use('/api/categories', require('./Routes/categoryManager'));
 app.use('/api/items', require('./Routes/itemManager'));
 app.use('/api/orders', require('./Routes/OrderManager'));
 app.use('/api/address', require('./Routes/AddressManager'));
+app.use('/api/coupons', require('./Routes/CouponManager'));
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
