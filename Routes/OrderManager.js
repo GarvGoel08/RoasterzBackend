@@ -60,7 +60,7 @@ router.post("/create-order", FetchUser, async (req, res) => {
           item: new mongoose.Types.ObjectId(item._id),
           quantity: item.quantity,
           // Calculate Coupon Discount and subtract from price
-          pricePerItem: item.price - (item.price * item.discount) / 100 - (item.price * couponDisc) / 100,
+          pricePerItem: item.price - (item.price * item.discount) / 100 - ((item.price - (item.price * item.discount) / 100) * couponDisc) / 100,
         })),
         Address: addressId,
         COD: true,
