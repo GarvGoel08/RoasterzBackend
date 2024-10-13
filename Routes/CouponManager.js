@@ -74,3 +74,5 @@ router.delete('/DeleteCoupon/:couponCode', FetchUser, async (req, res) => {
     }
 }
 );
+
+module.exports = router;
