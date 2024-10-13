@@ -34,10 +34,11 @@ router.post("/create-order", FetchUser, async (req, res) => {
         item.quantity * 100 * (item.price - (item.price * item.discount) / 100);
     });
 
+    let couponDisc = 0;
     if (couponCode) {
       const coupon = await Coupons.findOne({ couponCode });
       if (coupon) {
-        orderAmount = orderAmount - (orderAmount * coupon.couponDiscount) / 100;
+        couponDisc = coupon.couponDiscount;
       }
     }
 
@@ -58,7 +59,8 @@ router.post("/create-order", FetchUser, async (req, res) => {
         Items: items.map((item) => ({
           item: new mongoose.Types.ObjectId(item._id),
           quantity: item.quantity,
-          pricePerItem: item.price*(1-item.discount/100),
+          // Calculate Coupon Discount and subtract from price
+          pricePerItem: item.price - (item.price * item.discount) / 100 - (item.price * couponDisc) / 100,
         })),
         Address: addressId,
         COD: true,
