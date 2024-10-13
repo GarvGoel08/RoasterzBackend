@@ -9,6 +9,7 @@ const Item = require('../Schemas/Item');
 const Order = require("../Schemas/Order.js");
 const FetchUser = require("../middleware/FetchUser.js");
 const Coupons = require("../Schemas/Coupons.js");
+const User = require("../Schemas/User.js");
 // const razorpay = new Razorpay({
 //   key_id: process.env.RP_KEY,
 //   key_secret: process.env.RP_SECRET,
@@ -165,6 +166,29 @@ router.get("/get-all-orders", FetchUser, async (req, res) => {
       return res.status(400).json({ error: "You are not authorized to view orders" });
     const orders = await Order.find();
     return res.json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+// Update Order Status
+router.put("/update-order-status", FetchUser, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(400).json({ error: "User not found" });
+    }
+    if (!user.seller)
+      return res.status(400).json({ error: "You are not authorized to update orders" });
+    const { orderId, status } = req.body;
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(400).json({ error: "Order not found" });
+    }
+    order.OrderStatus = status;
+    await order.save();
+    return res.json({ message: "Order status updated successfully." });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error." });
