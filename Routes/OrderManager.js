@@ -25,7 +25,6 @@ router.post("/create-order", FetchUser, async (req, res) => {
   try {
     const { items, addressId, paymentMethod } = req.body;
     const userId = req.user.id;
-    console.log(addressId);
     let orderDate;
     let orderAmount = 0;
 

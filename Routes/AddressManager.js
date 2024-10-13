@@ -5,7 +5,7 @@ const Address = require('../Schemas/Address');
 
 router.post('/Add', FetchUser, async (req, res) => {
   try {
-    const { UserID } = req.user.id;
+    const UserID = req.user.id;
     const {
       AddressName,
       StreetAdress,
@@ -52,7 +52,7 @@ router.post('/Add', FetchUser, async (req, res) => {
 
 router.get('/Get', FetchUser, async (req, res) => {
   try {
-    const { UserID } = req.user.id;
+    const UserID = req.user.id;
     const addresses = await Address.find({ UserID });
     res.json(addresses);
   } catch (err) {
@@ -63,7 +63,7 @@ router.get('/Get', FetchUser, async (req, res) => {
 
 router.get('/GetByID', FetchUser, async (req, res) => {
   try {
-    const { UserID } = req.user.id;
+    const UserID = req.user.id;
     const {address} = req.body;
 
     // Check if the address belongs to the user
